@@ -11,10 +11,17 @@ dotenv.config();
 
 const app = express();
 const server = createServer(app);
+// CORS configuration for both development and production
+const allowedOrigins = [
+  process.env.FRONTEND_URL || "http://localhost:3000",
+  "https://rateflow-kappa.vercel.app"
+].filter(Boolean); // Remove any undefined values
+
 const io = new SocketIOServer(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
+    credentials: true
   }
 });
 
@@ -25,7 +32,7 @@ const recommendationService = new YieldRecommendationService();
 
 // Middleware
 app.use(cors({
-  origin: "http://localhost:3000",
+  origin: allowedOrigins,
   credentials: true
 }));
 app.use(express.json());

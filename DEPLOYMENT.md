@@ -57,6 +57,9 @@ PORT=3001
 NODE_ENV=development
 FRONTEND_URL=http://localhost:3000
 
+# For production deployment, set FRONTEND_URL to your deployed frontend URL:
+# FRONTEND_URL=https://rateflow-kappa.vercel.app
+
 # Database
 DB_HOST=localhost
 DB_PORT=5432
@@ -635,6 +638,10 @@ POLLING_INTERVAL=60000
 
 # Security
 FRONTEND_URL=https://your-domain.com
+
+# CORS Configuration
+# The backend automatically allows both localhost (development) and the FRONTEND_URL (production)
+# For multiple frontend URLs, update the allowedOrigins array in backend/src/index.ts
 ```
 
 **Frontend:**
