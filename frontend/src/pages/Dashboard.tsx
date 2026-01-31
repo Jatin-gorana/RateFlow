@@ -130,7 +130,7 @@ const Dashboard: React.FC = () => {
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">
             <h1 className="font-ui text-4xl font-bold text-white">
-              Yield<span className="text-violet-500">Sense</span>
+              Rate<span className="text-emerald-500">Flow</span>
             </h1>
             <div className="flex items-center space-x-2 text-zinc-400">
               <div className="w-2 h-2 bg-emerald-400 rounded-full live-dot"></div>

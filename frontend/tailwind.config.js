@@ -10,7 +10,7 @@ module.exports = {
         'mono': ['JetBrains Mono', 'SF Mono', 'Monaco', 'monospace'],
       },
       colors: {
-        // YieldSense Brand Colors
+        // RateFlow Brand Colors
         brand: {
           50: '#f5f3ff',
           100: '#ede9fe',
