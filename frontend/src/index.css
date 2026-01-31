@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import YieldSense Animations */
+@import './styles/animations.css';
+
+/* Global Styles */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #09090b;
+  color: #fafafa;
+  line-height: 1.6;
+}
+
+/* Ensure all numbers use monospace */
+.font-mono, 
+[class*="apy"], 
+[class*="rate"], 
+[class*="supply"], 
+[class*="borrow"],
+.yield-value,
+.percentage,
+.currency {
+  font-family: 'JetBrains Mono', 'SF Mono', Monaco, monospace !important;
+  font-variant-numeric: tabular-nums;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

@@ -5,6 +5,7 @@ import { apiService } from '../services/api';
 import { YieldData, YieldRecommendation } from '../types';
 import YieldCard from '../components/YieldCard';
 import RecommendationCard from '../components/RecommendationCard';
+import HeroTicker from '../components/HeroTicker';
 
 const Dashboard: React.FC = () => {
   const { latestYieldData, latestRecommendation, subscribeToAsset, subscribeToRecommendations } = useWebSocket();
@@ -65,94 +66,216 @@ const Dashboard: React.FC = () => {
     return liveUpdate || yieldData;
   }) || [];
 
+  // Separate active and tracked assets
+  const activeAssets = currentYields.filter(y => y.isAvailable);
+  const trackedAssets = currentYields.filter(y => !y.isAvailable);
+
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
+      <div className="min-h-screen bg-surface-950 font-ui">
+        <div className="container mx-auto px-4 py-8">
+          {/* Hero Skeleton */}
+          <div className="skeleton h-32 rounded-2xl mb-8"></div>
+          
+          {/* Stats Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="glass rounded-xl p-6">
+                <div className="skeleton h-4 w-20 mb-2"></div>
+                <div className="skeleton h-8 w-16"></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Cards Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[...Array(6)].map((_, i) => (
+              <div key={i} className="glass rounded-xl p-6">
+                <div className="skeleton h-48 w-full"></div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="bg-error-50 border border-error-200 rounded-lg p-4">
-        <p className="text-error-600">Failed to load yield data. Please try again.</p>
+      <div className="min-h-screen bg-surface-950 font-ui flex items-center justify-center">
+        <div className="glass rounded-xl p-8 border-red-500/20 max-w-md">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-red-500/10 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h3 className="text-lg font-semibold text-white mb-2">Connection Error</h3>
+            <p className="text-surface-400">Failed to load yield data. Please refresh to try again.</p>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">Yield Dashboard</h1>
-        <p className="mt-2 text-gray-600">
-          Real-time yield tracking for Aave protocol assets
-        </p>
-      </div>
-
-      {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Total Assets</h3>
-          <p className="text-3xl font-bold text-gray-900">{currentYields.length}</p>
-        </div>
-        
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Active Assets</h3>
-          <p className="text-3xl font-bold text-success-600">
-            {currentYields.filter(y => y.isAvailable).length}
+    <div className="min-h-screen bg-surface-950 font-ui custom-scrollbar">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="mb-8">
+          <div className="flex items-center justify-between mb-2">
+            <h1 className="font-ui text-4xl font-bold text-white">
+              Yield<span className="text-brand-500">Sense</span>
+            </h1>
+            <div className="flex items-center space-x-2 text-surface-400">
+              <div className="w-2 h-2 bg-yield-500 rounded-full live-dot"></div>
+              <span className="font-ui text-sm">Real-time Intelligence</span>
+            </div>
+          </div>
+          <p className="font-ui text-surface-400 text-lg">
+            Institutional-grade yield tracking across DeFi protocols
           </p>
         </div>
-        
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Avg Supply APY</h3>
-          <p className="text-3xl font-bold text-success-600">
-            {currentYields.filter(y => y.isAvailable).length > 0
-              ? (
-                  currentYields
-                    .filter(y => y.isAvailable && y.supplyAPY)
-                    .reduce((sum, y) => sum + parseFloat(y.supplyAPY!), 0) /
-                  currentYields.filter(y => y.isAvailable && y.supplyAPY).length
-                ).toFixed(2)
-              : '0.00'}%
-          </p>
+
+        {/* Hero Ticker - Best Yield Display */}
+        <HeroTicker yields={currentYields} isLive={!!latestYieldData} />
+
+        {/* Summary Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
+          <div className="glass rounded-xl p-4 md:p-6 hover-lift">
+            <h3 className="font-ui text-sm font-medium text-surface-400 mb-2">Total Assets</h3>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-white">{currentYields.length}</p>
+            <div className="flex items-center mt-1">
+              <span className="font-ui text-xs text-surface-500">{activeAssets.length} active</span>
+            </div>
+          </div>
+          
+          <div className="glass rounded-xl p-4 md:p-6 hover-lift">
+            <h3 className="font-ui text-sm font-medium text-surface-400 mb-2">Active Protocols</h3>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-yield-500">
+              {new Set(activeAssets.map(y => y.protocol)).size}
+            </p>
+            <div className="flex items-center mt-1">
+              <span className="font-ui text-xs text-surface-500">Live data</span>
+            </div>
+          </div>
+          
+          <div className="glass rounded-xl p-4 md:p-6 hover-lift">
+            <h3 className="font-ui text-sm font-medium text-surface-400 mb-2">Avg Supply APY</h3>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-yield-500">
+              {activeAssets.length > 0
+                ? (
+                    activeAssets
+                      .filter(y => y.supplyAPY)
+                      .reduce((sum, y) => sum + parseFloat(y.supplyAPY!), 0) /
+                    activeAssets.filter(y => y.supplyAPY).length
+                  ).toFixed(2)
+                : '0.00'}%
+            </p>
+            <div className="flex items-center mt-1">
+              <span className="font-ui text-xs text-surface-500">Weighted average</span>
+            </div>
+          </div>
+          
+          <div className="glass rounded-xl p-4 md:p-6 hover-lift">
+            <h3 className="font-ui text-sm font-medium text-surface-400 mb-2">Coming Soon</h3>
+            <p className="font-mono text-2xl md:text-3xl font-bold text-warning-500">
+              {trackedAssets.length}
+            </p>
+            <div className="flex items-center mt-1">
+              <span className="font-ui text-xs text-surface-500">Protocols pending</span>
+            </div>
+          </div>
         </div>
-        
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Protocols</h3>
-          <p className="text-3xl font-bold text-primary-600">
-            {new Set(currentYields.map(y => y.protocol)).size}
-          </p>
+
+        {/* Smart Recommendations */}
+        {currentRecommendation && (
+          <div className="mb-8">
+            <h2 className="font-ui text-xl font-semibold text-white mb-4 flex items-center">
+              <span className="w-2 h-2 bg-brand-500 rounded-full mr-3"></span>
+              Smart Recommendations
+            </h2>
+            <RecommendationCard 
+              recommendation={currentRecommendation} 
+              isLive={!!latestRecommendation}
+            />
+          </div>
+        )}
+
+        {/* Active Assets Section */}
+        {activeAssets.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-ui text-xl font-semibold text-white mb-6 flex items-center">
+              <span className="w-2 h-2 bg-yield-500 rounded-full mr-3 live-dot"></span>
+              Live Assets
+              <span className="ml-2 px-2 py-1 bg-yield-500/10 text-yield-500 text-xs rounded-full border border-yield-500/20">
+                {activeAssets.length}
+              </span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {activeAssets.map((yieldData) => (
+                <YieldCard
+                  key={yieldData.symbol}
+                  yieldData={yieldData}
+                  isLive={!!liveUpdates[yieldData.symbol]}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Tracked Assets Section */}
+        {trackedAssets.length > 0 && (
+          <div className="mb-8">
+            <h2 className="font-ui text-xl font-semibold text-white mb-6 flex items-center">
+              <span className="w-2 h-2 bg-warning-500 rounded-full mr-3"></span>
+              Coming Soon
+              <span className="ml-2 px-2 py-1 bg-warning-500/10 text-warning-500 text-xs rounded-full border border-warning-500/20">
+                {trackedAssets.length}
+              </span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {trackedAssets.map((yieldData) => (
+                <YieldCard
+                  key={yieldData.symbol}
+                  yieldData={yieldData}
+                  isLive={false}
+                />
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Empty State */}
+        {currentYields.length === 0 && !isLoading && (
+          <div className="text-center py-16">
+            <div className="w-24 h-24 bg-surface-800 rounded-2xl flex items-center justify-center mx-auto mb-6">
+              <svg className="w-12 h-12 text-surface-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+              </svg>
+            </div>
+            <h3 className="font-ui text-xl font-semibold text-white mb-2">No Yield Data Available</h3>
+            <p className="font-ui text-surface-400 max-w-md mx-auto">
+              We're working on connecting to yield protocols. Check back soon for real-time yield intelligence.
+            </p>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="mt-16 pt-8 border-t border-surface-800">
+          <div className="flex flex-col md:flex-row items-center justify-between text-surface-500">
+            <div className="flex items-center space-x-4 mb-4 md:mb-0">
+              <span className="font-ui text-sm">Powered by Aave V3</span>
+              <div className="w-1 h-1 bg-surface-600 rounded-full"></div>
+              <span className="font-ui text-sm">Real-time WebSocket data</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <div className="w-2 h-2 bg-yield-500 rounded-full live-dot"></div>
+              <span className="font-ui text-sm">System operational</span>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* Recommendation Section */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">
-          Smart Recommendations
-        </h2>
-        <RecommendationCard 
-          recommendation={currentRecommendation} 
-          isLive={!!latestRecommendation}
-        />
-      </div>
-
-      {/* Yield Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {currentYields.map((yieldData) => (
-          <YieldCard
-            key={yieldData.symbol}
-            yieldData={yieldData}
-            isLive={!!liveUpdates[yieldData.symbol]}
-          />
-        ))}
-      </div>
-
-      {currentYields.length === 0 && !isLoading && (
-        <div className="text-center py-12">
-          <p className="text-gray-500">No yield data available</p>
-        </div>
-      )}
     </div>
   );
 };
