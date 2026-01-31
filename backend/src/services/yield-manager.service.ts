@@ -38,6 +38,16 @@ export class YieldManagerService {
     }
   }
 
+  public async fetchNow(): Promise<any[]> {
+    try {
+      await this.updateYieldData();
+      return Array.isArray(this.currentData) ? this.currentData : [];
+    } catch (error) {
+      console.error('Error in fetchNow:', error);
+      return [];
+    }
+  }
+
   public setCurrentData(data: any): void {
     this.currentData = data;
   }

@@ -5,8 +5,8 @@ export interface Asset {
   decimals: number;
   name: string;
   isActive: boolean;
-  protocols: ProtocolSupport[];
-  status: AssetStatus;
+  protocols?: ProtocolSupport[];
+  status?: AssetStatus;
 }
 
 export interface ProtocolSupport {
@@ -26,10 +26,10 @@ export interface YieldData {
   utilizationRate: string | null;
   totalSupply: string | null;
   totalBorrow: string | null;
-  lastUpdated: Date;
+  lastUpdated: Date | string;
   blockNumber: number | null;
-  isAvailable: boolean;
-  protocol: string;
+  isAvailable?: boolean;
+  protocol?: string;
   statusMessage?: string;
 }
 

@@ -40,54 +40,60 @@ export class YieldChangeDetectorService {
     const changes: YieldChange[] = [];
 
     // Analyze supply APY change
-    const supplyChange = this.calculateChange(
-      parseFloat(previousYield.supplyAPY),
-      parseFloat(newYield.supplyAPY)
-    );
+    if (previousYield.supplyAPY && newYield.supplyAPY) {
+      const supplyChange = this.calculateChange(
+        parseFloat(previousYield.supplyAPY),
+        parseFloat(newYield.supplyAPY)
+      );
 
-    if (Math.abs(supplyChange.percentageChange) >= this.SIGNIFICANT_CHANGE_THRESHOLD) {
-      changes.push({
-        type: 'supply',
-        previousValue: parseFloat(previousYield.supplyAPY),
-        newValue: parseFloat(newYield.supplyAPY),
-        absoluteChange: supplyChange.absoluteChange,
-        percentageChange: supplyChange.percentageChange,
-        severity: this.determineSeverity(Math.abs(supplyChange.percentageChange))
-      });
+      if (Math.abs(supplyChange.percentageChange) >= this.SIGNIFICANT_CHANGE_THRESHOLD) {
+        changes.push({
+          type: 'supply',
+          previousValue: parseFloat(previousYield.supplyAPY),
+          newValue: parseFloat(newYield.supplyAPY),
+          absoluteChange: supplyChange.absoluteChange,
+          percentageChange: supplyChange.percentageChange,
+          severity: this.determineSeverity(Math.abs(supplyChange.percentageChange))
+        });
+      }
     }
 
     // Analyze borrow APY change
-    const borrowChange = this.calculateChange(
-      parseFloat(previousYield.borrowAPY),
-      parseFloat(newYield.borrowAPY)
-    );
+    if (previousYield.borrowAPY && newYield.borrowAPY) {
+      const borrowChange = this.calculateChange(
+        parseFloat(previousYield.borrowAPY),
+        parseFloat(newYield.borrowAPY)
+      );
 
-    if (Math.abs(borrowChange.percentageChange) >= this.SIGNIFICANT_CHANGE_THRESHOLD) {
-      changes.push({
-        type: 'borrow',
-        previousValue: parseFloat(previousYield.borrowAPY),
-        newValue: parseFloat(newYield.borrowAPY),
-        absoluteChange: borrowChange.absoluteChange,
-        percentageChange: borrowChange.percentageChange,
-        severity: this.determineSeverity(Math.abs(borrowChange.percentageChange))
-      });
+      if (Math.abs(borrowChange.percentageChange) >= this.SIGNIFICANT_CHANGE_THRESHOLD) {
+        changes.push({
+          type: 'borrow',
+          previousValue: parseFloat(previousYield.borrowAPY),
+          newValue: parseFloat(newYield.borrowAPY),
+          absoluteChange: borrowChange.absoluteChange,
+          percentageChange: borrowChange.percentageChange,
+          severity: this.determineSeverity(Math.abs(borrowChange.percentageChange))
+        });
+      }
     }
 
     // Analyze utilization rate change
-    const utilizationChange = this.calculateChange(
-      parseFloat(previousYield.utilizationRate),
-      parseFloat(newYield.utilizationRate)
-    );
+    if (previousYield.utilizationRate && newYield.utilizationRate) {
+      const utilizationChange = this.calculateChange(
+        parseFloat(previousYield.utilizationRate),
+        parseFloat(newYield.utilizationRate)
+      );
 
-    if (Math.abs(utilizationChange.percentageChange) >= this.SIGNIFICANT_CHANGE_THRESHOLD) {
-      changes.push({
-        type: 'utilization',
-        previousValue: parseFloat(previousYield.utilizationRate),
-        newValue: parseFloat(newYield.utilizationRate),
-        absoluteChange: utilizationChange.absoluteChange,
-        percentageChange: utilizationChange.percentageChange,
-        severity: this.determineSeverity(Math.abs(utilizationChange.percentageChange))
-      });
+      if (Math.abs(utilizationChange.percentageChange) >= this.SIGNIFICANT_CHANGE_THRESHOLD) {
+        changes.push({
+          type: 'utilization',
+          previousValue: parseFloat(previousYield.utilizationRate),
+          newValue: parseFloat(newYield.utilizationRate),
+          absoluteChange: utilizationChange.absoluteChange,
+          percentageChange: utilizationChange.percentageChange,
+          severity: this.determineSeverity(Math.abs(utilizationChange.percentageChange))
+        });
+      }
     }
 
     // Update stored yield data
