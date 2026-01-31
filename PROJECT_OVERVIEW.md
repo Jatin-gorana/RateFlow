@@ -219,16 +219,24 @@ Server → Client:
 
 ## 🎯 Supported Assets
 
-### **Current Assets**
-| Symbol | Name | Contract Address | Decimals |
-|--------|------|------------------|----------|
-| USDC | USD Coin | `0xA0b86a33E6441b8C4505B8C4505B8C4505B8C4505` | 6 |
-| USDT | Tether USD | `0xdAC17F958D2ee523a2206206994597C13D831ec7` | 6 |
+### **Active Assets (Live Yield Data)**
+| Symbol | Name | Contract Address | Decimals | Protocol | Status |
+|--------|------|------------------|----------|----------|---------|
+| USDC | USD Coin | `0xA0b86a33E6441b8C4505B8C4505B8C4505B8C4505` | 6 | Aave V3 | ✅ Active |
+| USDT | Tether USD | `0xdAC17F958D2ee523a2206206994597C13D831ec7` | 6 | Aave V3 | ✅ Active |
 
-### **Future Assets (Ready)**
-- USDE (USDe)
-- CevUSD (Curve USD)
-- Additional stablecoins
+### **Tracked Assets (Protocol Pending)**
+| Symbol | Name | Contract Address | Decimals | Target Protocol | Status |
+|--------|------|------------------|----------|-----------------|---------|
+| USDE | Ethena USDe | `0x4c9EDD5852cd905f086C759E8383e09bff1E68B3` | 18 | Ethena | 🔄 Tracked |
+| CevUSD | Curve USD | `0x3F3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B` | 18 | Curve Finance | 🔄 Tracked |
+
+### **Protocol-Aware Architecture**
+The platform is designed with protocol-aware asset management:
+- **Active Assets**: Full yield data from integrated protocols
+- **Tracked Assets**: Asset metadata ready, yield data pending protocol integration
+- **Status Indicators**: Clear UI indicators for asset availability
+- **Future-Ready**: Easy protocol addition without breaking changes
 
 ## 📈 Data Flow Architecture
 
@@ -288,8 +296,9 @@ const apyPercentage = apy * 100; // Convert to percentage
 ## 🔮 Future Enhancements
 
 ### **Protocol Expansion**
+- **Ethena Protocol**: USDE yield integration
+- **Curve Finance**: CevUSD yield farming
 - **Compound V3**: Additional lending protocol
-- **Curve Finance**: Stablecoin yield farming
 - **Pendle**: Yield tokenization protocol
 - **Yearn Finance**: Yield optimization strategies
 
@@ -315,12 +324,15 @@ const apyPercentage = apy * 100; // Convert to percentage
 - CORS and API configuration
 - TypeScript implementation
 - Error handling and fallbacks
+- Protocol-aware asset management
+- USDE and CevUSD asset tracking
+- Status indicators for unavailable assets
 
 ### 🔄 **In Progress**
 - Database persistence layer
 - Advanced change detection
 - Performance optimizations
-- Additional asset support
+- Protocol integrations (Ethena, Curve)
 
 ### 📋 **Planned Features**
 - Multi-protocol support

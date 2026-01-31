@@ -91,27 +91,38 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Summary Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Total Assets</h3>
           <p className="text-3xl font-bold text-gray-900">{currentYields.length}</p>
         </div>
         
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Active Assets</h3>
+          <p className="text-3xl font-bold text-success-600">
+            {currentYields.filter(y => y.isAvailable).length}
+          </p>
+        </div>
+        
+        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-2">Avg Supply APY</h3>
           <p className="text-3xl font-bold text-success-600">
-            {currentYields.length > 0
+            {currentYields.filter(y => y.isAvailable).length > 0
               ? (
-                  currentYields.reduce((sum, y) => sum + parseFloat(y.supplyAPY), 0) /
-                  currentYields.length
+                  currentYields
+                    .filter(y => y.isAvailable && y.supplyAPY)
+                    .reduce((sum, y) => sum + parseFloat(y.supplyAPY!), 0) /
+                  currentYields.filter(y => y.isAvailable && y.supplyAPY).length
                 ).toFixed(2)
               : '0.00'}%
           </p>
         </div>
         
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Protocol</h3>
-          <p className="text-3xl font-bold text-primary-600">Aave V3</p>
+          <h3 className="text-sm font-medium text-gray-500 mb-2">Protocols</h3>
+          <p className="text-3xl font-bold text-primary-600">
+            {new Set(currentYields.map(y => y.protocol)).size}
+          </p>
         </div>
       </div>
 

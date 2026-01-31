@@ -5,18 +5,32 @@ export interface Asset {
   decimals: number;
   name: string;
   isActive: boolean;
+  protocols: ProtocolSupport[];
+  status: AssetStatus;
 }
+
+export interface ProtocolSupport {
+  name: string;
+  isSupported: boolean;
+  isActive: boolean;
+  reason?: string;
+}
+
+export type AssetStatus = 'active' | 'tracked' | 'coming_soon' | 'inactive';
 
 export interface YieldData {
   assetId: number;
   symbol: string;
-  supplyAPY: string;
-  borrowAPY: string;
-  utilizationRate: string;
-  totalSupply: string;
-  totalBorrow: string;
+  supplyAPY: string | null;
+  borrowAPY: string | null;
+  utilizationRate: string | null;
+  totalSupply: string | null;
+  totalBorrow: string | null;
   lastUpdated: Date;
-  blockNumber: number;
+  blockNumber: number | null;
+  isAvailable: boolean;
+  protocol: string;
+  statusMessage?: string;
 }
 
 export interface HistoricalYield {

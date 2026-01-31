@@ -187,7 +187,15 @@ app.get('/api/v1/assets', (req, res) => {
         address: '0xA0b86a33E6441b8C4505B8C4505B8C4505B8C4505',
         decimals: 6,
         name: 'USD Coin',
-        isActive: true
+        isActive: true,
+        protocols: [
+          {
+            name: 'Aave V3',
+            isSupported: true,
+            isActive: true
+          }
+        ],
+        status: 'active'
       },
       {
         id: 2,
@@ -195,7 +203,61 @@ app.get('/api/v1/assets', (req, res) => {
         address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
         decimals: 6,
         name: 'Tether USD',
-        isActive: true
+        isActive: true,
+        protocols: [
+          {
+            name: 'Aave V3',
+            isSupported: true,
+            isActive: true
+          }
+        ],
+        status: 'active'
+      },
+      {
+        id: 3,
+        symbol: 'USDE',
+        address: '0x4c9EDD5852cd905f086C759E8383e09bff1E68B3',
+        decimals: 18,
+        name: 'Ethena USDe',
+        isActive: true,
+        protocols: [
+          {
+            name: 'Ethena',
+            isSupported: false,
+            isActive: false,
+            reason: 'Protocol integration pending'
+          },
+          {
+            name: 'Aave V3',
+            isSupported: false,
+            isActive: false,
+            reason: 'Asset not supported on Aave'
+          }
+        ],
+        status: 'tracked'
+      },
+      {
+        id: 4,
+        symbol: 'CevUSD',
+        address: '0x3F3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B3B',
+        decimals: 18,
+        name: 'Curve USD',
+        isActive: true,
+        protocols: [
+          {
+            name: 'Curve Finance',
+            isSupported: false,
+            isActive: false,
+            reason: 'Protocol integration pending'
+          },
+          {
+            name: 'Aave V3',
+            isSupported: false,
+            isActive: false,
+            reason: 'Asset not supported on Aave'
+          }
+        ],
+        status: 'tracked'
       }
     ],
     timestamp: new Date().toISOString()

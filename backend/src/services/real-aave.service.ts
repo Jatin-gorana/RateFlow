@@ -59,7 +59,7 @@ export class RealAaveService {
       const totalBorrow = (parseFloat(totalSupply) * utilizationRate / 100).toFixed(2);
 
       return {
-        assetId: symbol === 'USDC' ? 1 : 2,
+        assetId: this.getAssetId(symbol),
         symbol,
         supplyAPY: supplyAPY.toFixed(4),
         borrowAPY: borrowAPY.toFixed(4),
@@ -67,13 +67,15 @@ export class RealAaveService {
         totalSupply,
         totalBorrow,
         lastUpdated: new Date().toISOString(),
-        blockNumber
+        blockNumber,
+        isAvailable: true,
+        protocol: 'Aave V3'
       };
     } catch (error) {
       console.error(`Error fetching data for ${symbol}:`, error);
       // Return fallback data if blockchain call fails
       return {
-        assetId: symbol === 'USDC' ? 1 : 2,
+        assetId: this.getAssetId(symbol),
         symbol,
         supplyAPY: (Math.random() * 2 + 3).toFixed(4),
         borrowAPY: (Math.random() * 2 + 4).toFixed(4),
@@ -81,9 +83,38 @@ export class RealAaveService {
         totalSupply: (Math.random() * 500000000 + 500000000).toFixed(2),
         totalBorrow: (Math.random() * 300000000 + 300000000).toFixed(2),
         lastUpdated: new Date().toISOString(),
-        blockNumber: Math.floor(Math.random() * 1000 + 19234567)
+        blockNumber: Math.floor(Math.random() * 1000 + 19234567),
+        isAvailable: true,
+        protocol: 'Aave V3'
       };
     }
+  }
+
+  private getAssetId(symbol: string): number {
+    const assetIds: { [key: string]: number } = {
+      'USDC': 1,
+      'USDT': 2,
+      'USDE': 3,
+      'CevUSD': 4
+    };
+    return assetIds[symbol] || 0;
+  }
+
+  public async getUnavailableAssetData(symbol: string, protocol: string, reason: string) {
+    return {
+      assetId: this.getAssetId(symbol),
+      symbol,
+      supplyAPY: null,
+      borrowAPY: null,
+      utilizationRate: null,
+      totalSupply: null,
+      totalBorrow: null,
+      lastUpdated: new Date().toISOString(),
+      blockNumber: null,
+      isAvailable: false,
+      protocol,
+      statusMessage: reason
+    };
   }
 
   public async getAllAssetData() {
@@ -92,7 +123,11 @@ export class RealAaveService {
       this.getAssetData('USDT', USDT_ADDRESS)
     ]);
 
-    return [usdcData, usdtData];
+    // Add unavailable assets with proper status
+    const usdeData = await this.getUnavailableAssetData('USDE', 'Ethena', 'Tracked – Protocol not supported on Aave');
+    const cevusdData = await this.getUnavailableAssetData('CevUSD', 'Curve Finance', 'Tracked – Protocol not supported on Aave');
+
+    return [usdcData, usdtData, usdeData, cevusdData];
   }
 
   public async getHistoricalData(symbol: string, hours: number = 24) {

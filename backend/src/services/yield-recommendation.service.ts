@@ -56,12 +56,34 @@ export class YieldRecommendationService {
       };
     }
 
-    const comparison = this.createComparison(currentYields);
-    const insights = this.generateInsights(currentYields);
+    // Filter only available assets for analysis
+    const availableYields = currentYields.filter(asset => asset.isAvailable && asset.supplyAPY !== null);
+    
+    if (availableYields.length === 0) {
+      return {
+        bestYield: {
+          symbol: 'N/A',
+          supplyAPY: 0,
+          reason: 'No active yield data available',
+          confidence: 'low'
+        },
+        insights: [{
+          symbol: 'SYSTEM',
+          type: 'stable',
+          message: 'Tracking assets - yield data pending protocol integration',
+          severity: 'info'
+        }],
+        comparison: [],
+        lastUpdated: new Date()
+      };
+    }
+
+    const comparison = this.createComparison(availableYields);
+    const insights = this.generateInsights(availableYields);
     const bestYield = this.determineBestYield(comparison, insights);
 
-    // Update history
-    this.updateHistory(currentYields);
+    // Update history for available assets only
+    this.updateHistory(availableYields);
 
     return {
       bestYield,
