@@ -72,7 +72,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             </div>
             
             <div className="flex items-center space-x-6 text-zinc-500 text-sm">
-              <span className="font-ui">© 2024 YieldSense</span>
+              <span className="font-ui">© 2026 RateFlow</span>
               <span className="font-mono">v2.0</span>
             </div>
           </div>
