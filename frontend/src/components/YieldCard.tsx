@@ -16,7 +16,7 @@ const YieldCard: React.FC<YieldCardProps> = ({ yieldData, isLive = false }) => {
     if (isLive && yieldData.isAvailable) {
       setPulseKey(prev => prev + 1);
     }
-  }, [yieldData.supplyAPY, isLive]);
+  }, [yieldData.supplyAPY, isLive, yieldData.isAvailable]);
 
   const formatAPY = (apy: string | null) => {
     if (apy === null) return 'N/A';

@@ -19,7 +19,7 @@ const HeroTicker: React.FC<HeroTickerProps> = ({ yields, isLive = false }) => {
     if (isLive && bestYield) {
       setPulseKey(prev => prev + 1);
     }
-  }, [bestYield?.supplyAPY, isLive]);
+  }, [bestYield?.supplyAPY, isLive, bestYield]);
 
   if (!bestYield) {
     return (

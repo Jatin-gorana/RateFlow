@@ -17,7 +17,7 @@ const RecommendationCard: React.FC<RecommendationCardProps> = ({
     if (isLive && recommendation) {
       setPulseKey(prev => prev + 1);
     }
-  }, [recommendation?.bestYield.supplyAPY, isLive]);
+  }, [recommendation?.bestYield.supplyAPY, isLive, recommendation]);
 
   if (!recommendation) {
     return (
