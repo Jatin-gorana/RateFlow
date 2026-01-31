@@ -26,8 +26,11 @@ export const WebSocketProvider: React.FC<WebSocketProviderProps> = ({ children }
   const [latestRecommendation, setLatestRecommendation] = useState<YieldRecommendation | null>(null);
 
   useEffect(() => {
+    // Get API URL and derive WebSocket URL
+    const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+    
     // Initialize socket connection
-    const newSocket = io(process.env.REACT_APP_API_URL || 'http://localhost:3001', {
+    const newSocket = io(apiUrl, {
       transports: ['websocket', 'polling'],
     });
 
