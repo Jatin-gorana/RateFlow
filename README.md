@@ -318,43 +318,11 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for detailed deployment instructions.
 
 ---
 
-## 🤝 Contributing
-
-We welcome contributions! Please see our contributing guidelines:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### **Development Guidelines**
-- Follow TypeScript strict mode
-- Use conventional commit messages
-- Add tests for new features
-- Update documentation
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
 ## 🙏 Acknowledgments
 
 - **Aave Protocol** - For providing robust DeFi lending infrastructure
 - **Alchemy** - For reliable Ethereum RPC services
 - **Vercel & Render** - For seamless deployment platforms
 - **Open Source Community** - For the amazing tools and libraries
-
----
-
-## 📞 Contact & Support
-
-- **Demo**: [rateflow-kappa.vercel.app](https://rateflow-kappa.vercel.app/)
-- **Issues**: [GitHub Issues](https://github.com/your-username/rateflow/issues)
-- **Documentation**: [DEPLOYMENT.md](DEPLOYMENT.md) | [DEMO_SCRIPT.md](DEMO_SCRIPT.md)
 
 ---
