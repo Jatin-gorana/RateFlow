@@ -1,4 +1,4 @@
-# RateFlow 🚀
+# RateFlow 
 ### Institutional-Grade Web3 Yield Intelligence Platform
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-rateflow--kappa.vercel.app-brightgreen)](https://rateflow-kappa.vercel.app/)
@@ -10,7 +10,7 @@
 
 RateFlow is a production-ready Web3 yield intelligence platform that provides real-time APY tracking, intelligent yield recommendations, and multi-protocol support. Built with enterprise-grade architecture and designed for professional DeFi yield optimization.
 
-![RateFlow Dashboard](https://via.placeholder.com/800x400/0f172a/10b981?text=RateFlow+Dashboard+Screenshot)
+![RateFlow Dashboard](https://assets.devfolio.co/hackathons/mergeconflict/projects/6506795f2d854a579b662b1dd02bb6b9/c7ba2dc4-6915-4b5d-8a02-cc0a02f0514b.png)
 
 ---
 
@@ -358,11 +358,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Documentation**: [DEPLOYMENT.md](DEPLOYMENT.md) | [DEMO_SCRIPT.md](DEMO_SCRIPT.md)
 
 ---
-
-<div align="center">
-
-**Built with ❤️ for the DeFi community**
-
-*RateFlow - Where institutional meets DeFi*
-
-</div>
